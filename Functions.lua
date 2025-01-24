@@ -6,12 +6,15 @@ local Mouse = LocalPlayer:GetMouse()
 local function IsAlive(Player)
     if Player and Player.Character then
         local Character = Player.Character
-        local ForceField = Character:FindFirstChild("ForceField")
+        local Head = Character:FindFirstChild("Head")
         local Humanoid = Character:FindFirstChild("Humanoid")
-        local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
-        return not ForceField and Humanoid and Humanoid.Health > 0 and HumanoidRootPart
+        return Head and Humanoid and Humanoid.Health > 0
     end
     return false
+end
+
+local function IsEnemy(Player)
+    return Player ~= LocalPlayer and (Player.Neutral or LocalPlayer.Neutral or Player.Team ~= LocalPlayer.Team)
 end
 
 local function MouseDistanceToPoint(Point)
@@ -28,5 +31,6 @@ end
 
 return {
     IsAlive = IsAlive,
+    IsEnemy = IsEnemy,
     MouseDistanceToPoint = MouseDistanceToPoint,
 }
